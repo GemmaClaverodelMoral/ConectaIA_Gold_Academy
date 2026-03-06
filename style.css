@@ -1,0 +1,785 @@
+/* style.css - Diseño enfocado en accesibilidad (Presbicia) y usabilidad simple */
+
+:root {
+    /* Paleta Corporativa de ConectaIA Gold Academy */
+    /* Fondo principal crema muy suave para no fatigar la vista */
+    --bg-primary: #FDFBF7;
+    --bg-secondary: #F2EFE9;
+
+    /* Fondos oscuros para Hero y Footer (alto contraste) */
+    --bg-dark: #0A1128;
+
+    /* Colores Acento (Extraídos idealmente de los logos) */
+    --accent-blue: #007BFF;
+    --accent-blue-hover: #0056b3;
+    --neon-highlight: #00E5FF;
+
+    /* Textos (Alto contraste, nunca font-weight muy ligero) */
+    --text-dark: #111111;
+    --text-light: #F8F9FA;
+    --text-gray: #333333;
+
+    /* Tamaños Tipográficos base (Gigantes para presbicia) */
+    --font-base: 20px;
+    --font-h1: 2.8rem;
+    --font-h2: 2.2rem;
+    --font-h3: 1.5rem;
+
+    /* Espaciados */
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 6rem;
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: var(--font-base);
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Tipografía Base */
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-dark);
+}
+
+p {
+    margin-bottom: var(--spacing-sm);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-large {
+    margin-top: var(--spacing-lg);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Contenedor Principal (Con padding lateral seguro para móviles) */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-lg) 20px;
+}
+
+.pb-0 {
+    padding-bottom: 0;
+}
+
+/* ==========================================================
+   EFECTO DE REVELADO (Estilo DominIA)
+   ========================================================== */
+
+/* Keyframe reutilizable para entrada suave */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(45px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación de entrada del HERO al cargar la página (sin flash) */
+.logo-container {
+    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both;
+}
+
+.hero-header {
+    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s both;
+}
+
+.vsl-container {
+    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s both;
+}
+
+.cta-container {
+    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.85s both;
+}
+
+/* Estado inicial: invisible. Sin 'visibility' para evitar el flash */
+.reveal {
+    opacity: 0;
+    transform: translateY(45px);
+    transition: opacity 0.85s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform, opacity;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Items de lista que entran escalonados uno por uno (desde la izquierda) */
+.stagger-item {
+    opacity: 0;
+    transform: translateX(-25px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.stagger-item.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* ==========================================================
+   BOTONES E INTERACTIVOS (Anti-errores)
+   ========================================================== */
+.btn-giant {
+    display: inline-block;
+    width: 100%;
+    padding: 1.2rem 2rem;
+    font-size: 1.3rem;
+    /* Enorme */
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--accent-blue);
+    color: var(--text-light);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.1s ease, transform 0.1s ease;
+    /* Aspecto de botón físico ("Click me" mental model) */
+    box-shadow: 0 6px 0 var(--accent-blue-hover), 0 10px 20px rgba(0, 0, 0, 0.2);
+    /* Prevenir selección accidental de texto */
+    user-select: none;
+}
+
+.btn-giant:active {
+    transform: translateY(6px);
+    box-shadow: 0 0px 0 var(--accent-blue-hover), 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Opcional: Color alternativo utilizando neón */
+.btn-accent {
+    background-color: #00C853;
+    /* Verde para acción de compra o neón */
+    box-shadow: 0 6px 0 #009624, 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-accent:active {
+    transform: translateY(6px);
+    box-shadow: 0 0px 0 #009624, 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.micro-text {
+    font-size: 0.85rem;
+    color: inherit;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* ==========================================================
+   SECTION 1: HERO
+   ========================================================== */
+.hero-section {
+    position: relative;
+    /* Para posicionar el canvas y el grid */
+    overflow: hidden;
+    /* Degradado base oscuro */
+    background: var(--bg-dark);
+    color: var(--text-light);
+    text-align: center;
+    border-bottom: 8px solid var(--neon-highlight);
+    width: 100%;
+    margin: 0;
+}
+
+#waves-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.7;
+    /* Un poco más suave */
+}
+
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+    /* Por encima del fondo animado */
+    padding-top: var(--spacing-sm);
+}
+
+.hero-section h1,
+.hero-section h2 {
+    color: var(--text-light);
+    /* Override default dark */
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    /* Reducido para juntar el logo al título */
+}
+
+.logo {
+    max-height: 180px;
+    max-width: 100%;
+    /* Evita desbordamiento en móviles */
+    height: auto;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.headline {
+    font-size: var(--font-h1);
+    letter-spacing: -0.02em;
+}
+
+@media (max-width: 600px) {
+    .headline {
+        font-size: 1.8rem;
+        /* Tamaño más manejable en móviles */
+    }
+}
+
+.subheadline {
+    font-size: var(--font-h3);
+    font-weight: 400;
+    opacity: 0.9;
+    max-width: 800px;
+    margin: 0 auto var(--spacing-lg) auto;
+}
+
+.vsl-container {
+    max-width: 900px;
+    margin: 0 auto var(--spacing-lg) auto;
+    border-radius: 20px;
+    overflow: hidden;
+    /* Halo exterior brillante con mezcla de azul y púrpura */
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.4),
+        0 0 60px rgba(135, 206, 235, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #000;
+}
+
+.video-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #0d0d0d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #FFF;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.video-placeholder:hover {
+    transform: scale(1.01);
+}
+
+.play-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.play-circle {
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.play-triangle {
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-left: 20px solid #87CEEB;
+    /* Azul claro para el play */
+    border-bottom: 12px solid transparent;
+    margin-left: 5px;
+}
+
+.video-placeholder span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.cta-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-bottom: var(--spacing-lg);
+}
+
+
+/* ==========================================================
+   SECTION 2: AGITACIÓN DEL DOLOR
+   ========================================================== */
+.pain-section {
+    background-color: var(--bg-secondary);
+    text-align: center;
+}
+
+.section-title {
+    font-size: var(--font-h2);
+    margin-bottom: 0.2rem;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    margin-bottom: var(--spacing-lg);
+}
+
+.pain-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    text-align: left;
+}
+
+.pain-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: var(--spacing-lg);
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #E0E0E0;
+    transition: transform 0.2s ease;
+}
+
+.pain-card:hover {
+    transform: translateY(-5px);
+}
+
+.pain-text h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.8rem;
+    color: var(--text-dark);
+}
+
+.pain-text p {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ==========================================================
+   SECTION 3: OFERTA IRRESISTIBLE
+   ========================================================== */
+.offer-section {
+    background-color: #FFFFFF;
+}
+
+.offer-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+.value-title {
+    font-size: var(--font-h2);
+    margin-bottom: var(--spacing-md);
+}
+
+.value-list {
+    list-style: none;
+}
+
+.value-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+}
+
+.value-list .icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.bonus-box,
+.community-box {
+    background-color: rgba(0, 229, 255, 0.05);
+    border-left: 6px solid var(--neon-highlight);
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    border-radius: 0 8px 8px 0;
+}
+
+.bonus-box h3,
+.community-box h3 {
+    color: var(--accent-blue);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Formulario */
+.form-card {
+    background-color: var(--bg-secondary);
+    border: 3px solid var(--accent-blue);
+    /* Borde resaltado */
+    border-radius: 16px;
+    padding: var(--spacing-md);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    font-size: 1.6rem;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    font-weight: 800;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.2rem;
+    /* Input enorme */
+    border: 2px solid #CCC;
+    border-radius: 8px;
+    font-family: inherit;
+    /* Ajustes para presbicia */
+    color: var(--text-dark);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+}
+
+.form-secure {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    margin-top: 1rem;
+}
+
+
+.form-message {
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.form-message.success {
+    background-color: #D4EDDA;
+    color: #155724;
+    border: 1px solid #C3E6CB;
+}
+
+.form-message.error {
+    background-color: #F8D7DA;
+    color: #721C24;
+    border: 1px solid #F5C6CB;
+}
+
+/* ==========================================================
+   SECTION 3.5: TUTORIALES INCLUIDOS (Estilo DominIA)
+   ========================================================== */
+#tutoriales {
+    background-color: var(--bg-dark);
+    padding: var(--spacing-xl) 0;
+    color: var(--text-light);
+}
+
+#tutoriales .container-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+#tutoriales .tutorials-title {
+    font-size: var(--font-h2);
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+    color: #FFFFFF !important;
+}
+
+#tutoriales .highlight-text {
+    background: linear-gradient(90deg, #A855F7, #00E5FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+#tutoriales .tutorials-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#tutoriales .tutorial-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+}
+
+#tutoriales .tutorial-card:hover {
+    border-color: var(--neon-highlight);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(8px);
+}
+
+#tutoriales .check-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #4ADE80, #22C55E) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    color: #111;
+    font-size: 1.1rem;
+    font-weight: 900;
+    flex-shrink: 0;
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
+}
+
+#tutoriales .tutorial-card:hover .check-icon {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.6);
+}
+
+#tutoriales .tutorial-card p {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin: 0;
+    color: #FFFFFF;
+}
+
+#tutoriales .tutorial-card strong {
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    #tutoriales .tutorials-title {
+        font-size: 1.8rem;
+    }
+
+    #tutoriales .tutorial-card {
+        padding: 15px 20px;
+        gap: 15px;
+    }
+
+    #tutoriales .tutorial-card p {
+        font-size: 1rem;
+    }
+
+    #tutoriales .tutorial-card:hover {
+        transform: none;
+    }
+}
+
+
+/* ==========================================================
+   SECTION 4: AUTHORITY
+   ========================================================== */
+.authority-section {
+    background-color: #F8F9FA;
+    border-top: 1px solid #EAEAEA;
+    border-bottom: 1px solid #EAEAEA;
+    padding: var(--spacing-md) 0;
+    text-align: center;
+}
+
+.authority-title {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    font-weight: 600;
+}
+
+.tech-stack-mosaic {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.tech-item {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #555;
+    /* Estilo monocromo/desaturado */
+    background: transparent;
+    padding: 10px 15px;
+    border-radius: 8px;
+    filter: grayscale(100%);
+    opacity: 0.7;
+}
+
+/* ==========================================================
+   SECTION 5: FINAL CTA & METRICAS
+   ========================================================== */
+.final-cta-section {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+.final-cta-section h2,
+.final-cta-section h3 {
+    color: var(--text-light);
+}
+
+.final-headline {
+    font-size: var(--font-h2);
+    margin-bottom: var(--spacing-xl);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.metric h3 {
+    font-size: 1.5rem;
+    color: var(--neon-highlight);
+}
+
+/* ==========================================================
+   SECTION 6: FOOTER
+   ========================================================== */
+.site-footer {
+    background-color: #050814;
+    color: #888;
+    padding: var(--spacing-md) 0;
+}
+
+.footer-logo {
+    max-height: 50px;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.8;
+}
+
+.footer-links a {
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+    color: #FFF;
+}
+
+/* ==========================================================
+   MEDIA QUERIES (DESKTOP)
+   ========================================================== */
+@media (min-width: 900px) {
+    .pain-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .offer-layout {
+        grid-template-columns: 3fr 2fr;
+        align-items: start;
+    }
+
+    .sticky-card {
+        position: sticky;
+        top: 20px;
+    }
+
+    .metrics-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tech-stack-mosaic {
+        gap: var(--spacing-lg);
+    }
+
+    .tech-item {
+        font-size: 1.5rem;
+    }
+
+    .logo-container {
+        text-align: center;
+    }
+
+    .hero-section {
+        position: relative;
+        padding-top: var(--spacing-md);
+        /* Reducido de XL a MD para eliminar espacio superior */
+    }
+}
