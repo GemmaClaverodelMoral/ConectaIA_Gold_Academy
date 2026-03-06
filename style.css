@@ -4,7 +4,7 @@
     /* Paleta Corporativa de ConectaIA Gold Academy */
     /* Fondo principal crema muy suave para no fatigar la vista */
     --bg-primary: #FDFBF7;
-    --bg-secondary: #F2EFE9;
+    --bg-secondary: #FDFBF7;
 
     /* Fondos oscuros para Hero y Footer (alto contraste) */
     --bg-dark: #0A1128;
@@ -91,10 +91,9 @@ p {
 }
 
 /* ==========================================================
-   EFECTO DE REVELADO (Estilo DominIA)
+   EFECTO DE REVELADO Y STAGGER (CORREGIDO)
    ========================================================== */
 
-/* Keyframe reutilizable para entrada suave */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -107,29 +106,26 @@ p {
     }
 }
 
-/* Animación de entrada del HERO al cargar la página (sin flash) */
 .logo-container {
-    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both;
+    animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
 .hero-header {
-    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s both;
+    animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
 }
 
 .vsl-container {
-    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s both;
+    animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
 }
 
 .cta-container {
-    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.85s both;
+    animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both;
 }
 
-/* Estado inicial: invisible. Sin 'visibility' para evitar el flash */
 .reveal {
     opacity: 0;
     transform: translateY(45px);
-    transition: opacity 0.85s cubic-bezier(0.2, 0.8, 0.2, 1),
-        transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
 }
 
@@ -138,16 +134,20 @@ p {
     transform: translateY(0);
 }
 
-/* Items de lista que entran escalonados uno por uno (desde la izquierda) */
 .stagger-item {
     opacity: 0;
-    transform: translateX(-25px);
-    transition: opacity 1s ease, transform 1s ease;
+    transform: translateX(-80px);
+    /* Un poco menos de distancia para que no salte */
+    transition:
+        opacity 2s ease-out,
+        transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Curva de frenado lento */
+    will-change: transform, opacity;
 }
 
 .stagger-item.active {
-    opacity: 1;
-    transform: translateX(0);
+    opacity: 1 !important;
+    transform: translateX(0) !important;
 }
 
 
@@ -205,15 +205,33 @@ p {
    ========================================================== */
 .hero-section {
     position: relative;
-    /* Para posicionar el canvas y el grid */
     overflow: hidden;
-    /* Degradado base oscuro */
     background: var(--bg-dark);
     color: var(--text-light);
     text-align: center;
-    border-bottom: 8px solid var(--neon-highlight);
     width: 100%;
     margin: 0;
+    padding-bottom: 100px;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 20;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    /* Sella la unión */
+    left: 0;
+    width: 100%;
+    height: 10px;
+    /* Un poco más alto para suavidad */
+    background: linear-gradient(to bottom, transparent 0%, var(--bg-secondary) 100%);
+    z-index: 10;
+    /* Por debajo del texto, pero por encima del canvas */
+    pointer-events: none;
 }
 
 #waves-canvas {
@@ -225,15 +243,6 @@ p {
     z-index: 0;
     pointer-events: none;
     opacity: 0.7;
-    /* Un poco más suave */
-}
-
-
-.hero-section .container {
-    position: relative;
-    z-index: 2;
-    /* Por encima del fondo animado */
-    padding-top: var(--spacing-sm);
 }
 
 .hero-section h1,
@@ -369,8 +378,13 @@ p {
    SECTION 2: AGITACIÓN DEL DOLOR
    ========================================================== */
 .pain-section {
-    background-color: var(--bg-secondary);
-    text-align: center;
+    position: relative;
+    z-index: 15;
+    /* Entre el degradado y el contenido del hero */
+    margin-top: 0;
+    /* Solapamiento agresivo para eliminar la raya blanca */
+    padding-top: 40px;
+    background-color: var(--bg-secondary) !important;
 }
 
 .section-title {
@@ -398,7 +412,7 @@ p {
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     border: 1px solid #E0E0E0;
-    transition: transform 0.2s ease;
+    /*    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);*/
 }
 
 .pain-card:hover {
@@ -543,6 +557,11 @@ p {
     border: 1px solid #F5C6CB;
 }
 
+#formulario-registro {
+    scroll-margin-top: 80px;
+    /* Esto deja un margen de cortesía arriba al scrollear */
+}
+
 /* ==========================================================
    SECTION 3.5: TUTORIALES INCLUIDOS (Estilo DominIA)
    ========================================================== */
@@ -588,7 +607,7 @@ p {
     display: flex;
     align-items: center;
     gap: 20px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /*transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);*/
     text-align: left;
 }
 
@@ -742,6 +761,7 @@ p {
     text-decoration: underline;
     color: #FFF;
 }
+
 
 /* ==========================================================
    MEDIA QUERIES (DESKTOP)
