@@ -762,6 +762,49 @@ p {
     color: #FFF;
 }
 
+.footer-whatsapp {
+    margin-bottom: 1rem;
+}
+
+.whatsapp-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #25D366;
+    /* Verde WhatsApp */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: opacity 0.3s ease;
+}
+
+.whatsapp-link:hover {
+    opacity: 0.8;
+}
+
+.whatsapp-icon {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+.footer-emails {
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+}
+
+.footer-emails a {
+    color: #888;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-emails a:hover {
+    color: #FFF;
+    text-decoration: underline;
+}
+
 
 /* ==========================================================
    MEDIA QUERIES (DESKTOP)
