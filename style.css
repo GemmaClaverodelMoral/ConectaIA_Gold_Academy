@@ -142,7 +142,7 @@ p {
 .stagger-item {
     opacity: 0;
     transform: translateX(-25px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 1s ease, transform 1s ease;
 }
 
 .stagger-item.active {
