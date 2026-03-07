@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="style.css">
     <!-- Three.js para el fondo animado -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -175,9 +176,27 @@
                                 <input type="email" id="email" name="email" required placeholder="Ej: maria@ejemplo.com"
                                     autocomplete="email">
                             </div>
+
                             <button type="submit" class="btn-giant btn-submit" id="submit-btn" aria-live="polite">ENTRAR
                                 A LA ESCUELA AHORA</button>
-                            <p class="form-secure">Petición 100% Segura. No compartimos tus datos.</p>
+                            <div class="form-group checkbox-group">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" id="data-consent" name="data-consent" required>
+                                    <span class="checkmark"></span>
+                                    <span class="label-text">
+                                        Autorizo el tratamiento de datos personales y acepto la
+                                        <a href="politica-privacidad.html" target="_blank" class="legal-link">Política
+                                            de Privacidad</a>.
+                                    </span>
+                                </label>
+                            </div>
+                            <p class="form-secure">
+                                <svg style="width:12px; fill:#28a745; margin-right:5px" viewBox="0 0 448 512">
+                                    <path
+                                        d="M400 224h-24v-72C376 64.5 311.5 0 232 0S88 64.5 88 152v72H64c-35.3 0-64 28.7-64 64v192c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V288c0-35.3-28.7-64-64-64zm-88 0H136v-72c0-53 43-96 96-96s96 43 96 96v72z" />
+                                </svg>
+                                Datos protegidos bajo la Ley 1581 de 2012.
+                            </p>
                             <div id="form-message" class="form-message hidden" aria-live="polite"></div>
                         </form>
                     </div>

@@ -8,71 +8,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (form) {
         form.addEventListener('submit', async (e) => {
-            // Prevenir recarga del navegador (comportamiento por defecto)
             e.preventDefault();
 
-            // Extraer datos del formulario
+            const checkbox = document.getElementById('data-consent');
+
+            if (!checkbox.checked) {
+                checkbox.setCustomValidity("Debes autorizar el tratamiento de datos para continuar.");
+                checkbox.reportValidity();
+                return;
+            } else {
+                checkbox.setCustomValidity("");
+            }
+
             const formData = new FormData(form);
             const data = {
                 name: formData.get('name'),
                 email: formData.get('email'),
-                source: 'ConectaIA Gold VSL Landing',
+                consent: checkbox.checked,
+                source: 'ConectaIA Gold Landing',
                 timestamp: new Date().toISOString()
             };
 
-            // Estado UI: "Procesando..." (Feedback visual claro para prevenir múltiples clics)
+            // Estado UI: "Procesando..."
             const originalBtnText = submitBtn.textContent;
-            submitBtn.textContent = 'PROCESANDO...';
+            submitBtn.textContent = 'ENVIANDO...';
             submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.8';
-            submitBtn.style.cursor = 'wait';
 
-            // Ocultar mensajes previos
             messageDiv.classList.add('hidden');
-            messageDiv.className = 'form-message hidden';
 
             try {
-                // Mock Fetch API (Apuntando a N8N genérico como solicitado)
-                // Usualmente el endpoint sería: 'https://tu-n8n-webhook-url.com/catch'
-                const webhookUrl = 'https://tu-n8n-webhook-url.com/catch';
+                const webhookUrl = 'https://n8n.conectaia.cloud/webhook/d7a84d3a-2854-4793-affa-5c1b3324af03';
 
-                // NOTA: Para propósitos de demostración al abrir en local, si el webhook falla  
-                // o no existe, de todas formas mostraremos un éxito simulado tras 1.5s.
-                // Si tienes un webhook real corriendo, puedes descomentar la constante 'response'.
-
-                /*
                 const response = await fetch(webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                if (!response.ok) throw new Error('Error en la red al enviar datos');
-                */
 
-                // Simulacro de carga para la demostración
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                if (!response.ok) throw new Error('Error en el servidor');
 
-                // Mostrar mensaje de éxito
-                messageDiv.textContent = '¡Gracias por dar el paso! Revisa tu correo electrónico para las instrucciones de acceso.';
-                messageDiv.classList.add('success');
-                messageDiv.classList.remove('hidden');
+                // IMPORTANTE: Ponemos 'await' para que el botón no cambie hasta que cierres la alerta
+                await Swal.fire({
+                    title: '¡Excelente decisión, ' + data.name + '!',
+                    text: 'En breve recibirás un email con instrucciones. ¡Te esperamos!',
+                    icon: 'success',
+                    iconColor: '#FFD700',
+                    background: '#1a1a1a',
+                    color: '#ffffff',
+                    confirmButtonText: '¡ENTENDIDO!',
+                    confirmButtonColor: '#007bff',
+                    customClass: { popup: 'border-gold' }
+                });
 
-                // Limpiar formulario tras el éxito
                 form.reset();
 
             } catch (error) {
-                console.error("Error al procesar el formulario:", error);
-
-                // Mostrar mensaje de error
-                messageDiv.textContent = 'Hubo un problema al procesar tu solicitud. Por favor, intenta de nuevo más tarde o revisa tu conexión.';
-                messageDiv.classList.add('error');
-                messageDiv.classList.remove('hidden');
+                console.error("Error:", error);
+                await Swal.fire({
+                    title: 'Ups...',
+                    text: 'Hubo un inconveniente técnico. Inténtalo de nuevo o escríbenos por WhatsApp.',
+                    icon: 'error',
+                    confirmButtonColor: '#d33'
+                });
             } finally {
-                // Restaurar estado del botón
+                // ESTO CORRIGE EL BOTÓN: Se ejecuta siempre al terminar, sea éxito o error
                 submitBtn.textContent = originalBtnText;
                 submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                submitBtn.style.cursor = 'pointer';
             }
         });
     }
